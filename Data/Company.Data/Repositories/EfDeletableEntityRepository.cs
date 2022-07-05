@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Company.Data.Common.Models;
     using Company.Data.Common.Repositories;
@@ -23,6 +24,12 @@
         public IQueryable<TEntity> AllWithDeleted() => base.All().IgnoreQueryFilters();
 
         public IQueryable<TEntity> AllAsNoTrackingWithDeleted() => base.AllAsNoTracking().IgnoreQueryFilters();
+
+        public Task<TEntity> GetByIdWithDeletedAsync(params object[] id)
+        {
+            var getByIdPredicate = EfExpressionHelper.BuildByIdPredicate<TEntity>(this.Context, id);
+            return this.AllWithDeleted().FirstOrDefaultAsync(getByIdPredicate);
+        }
 
         public void HardDelete(TEntity entity) => base.Delete(entity);
 

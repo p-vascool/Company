@@ -24,7 +24,41 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
+        public DbSet<Destination> Destinations { get; set; }
+
+        public DbSet<State> States { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<CountryCode> CountryCodes { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<Car> Cars { get; set; }
+
+        public DbSet<Trip> Trips { get; set; }
+
+        public DbSet<UserTrip> UserTrips { get; set; }
+
+        public DbSet<TripRequest> TripRequests { get; set; }
+
+        public DbSet<ContactFormEntry> ContactFormEntries { get; set; }
+
+        public DbSet<View> Views { get; set; }
+
+        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<UserGroup> UsersGroups { get; set; }
+
+        public DbSet<UserRating> UserRatings { get; set; }
+
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
+
+        public DbSet<WatchListTrip> WatchListTrips { get; set; }
+
+        public DbSet<UserNotification> UserNotifications { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -47,12 +81,81 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<WatchListTrip>()
+                .HasKey(x => new { x.UserId, x.TripId });
+
+            builder.Entity<Message>()
+                .HasOne(x => x.Sender)
+                .WithMany(x => x.Messages)
+                .HasForeignKey(x => x.UserId);
+
+            builder.Entity<UserTrip>()
+                .HasKey(x => new { x.UserId, x.TripId });
+
+            builder.Entity<UserTrip>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserTrips)
+                .HasForeignKey(x => x.UserId);
+
+            builder.Entity<UserTrip>()
+                .HasOne(x => x.Trip)
+                .WithMany(x => x.UserTrips)
+                .HasForeignKey(x => x.TripId);
+
+            builder.Entity<City>(entity =>
+            {
+                entity.HasOne(x => x.State)
+                    .WithMany(x => x.Cities)
+                    .HasForeignKey(x => x.StateId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(x => x.Country)
+                    .WithMany(x => x.Cities)
+                    .HasForeignKey(x => x.CountryId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(x => x.ZipCodes)
+                    .WithOne(x => x.City)
+                    .HasForeignKey(x => x.CityId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<Country>()
+                .HasOne(x => x.CountryCode)
+                .WithMany(x => x.Countries)
+                .HasForeignKey(x => x.CountryCodeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>(entity =>
+            {
+                entity.HasMany(x => x.UserTrips)
+                      .WithOne(x => x.User)
+                      .HasForeignKey(x => x.UserId);
+
+                entity.HasOne(x => x.CountryCode)
+                    .WithMany(x => x.Users)
+                    .HasForeignKey(x => x.CountryCodeId)
+                    .IsRequired(false);
+            });
+
+            builder.Entity<UserRating>().HasKey(x => new
+            {
+                x.Username,
+                x.RaterUsername,
+            });
+
+            builder.Entity<UserGroup>().HasKey(k => new
+            {
+                k.GroupId,
+                k.UserId,
+            });
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 
             this.ConfigureUserIdentityRelations(builder);
 
-            EntityIndexesConfiguration.Configure(builder);
+            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
             var entityTypes = builder.Model.GetEntityTypes().ToList();
 

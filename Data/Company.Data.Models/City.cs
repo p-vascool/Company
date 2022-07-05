@@ -22,7 +22,7 @@
 
         [Required]
         [ForeignKey(nameof(State))]
-        public int StateId { get; set; }
+        public string StateId { get; set; }
 
         public State State { get; set; }
 
