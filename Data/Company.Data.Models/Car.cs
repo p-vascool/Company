@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations;
     using Company.Data.Common.Models;
 
     public class Car : BaseModel<int>, IDeletableEntity
@@ -36,6 +36,7 @@
 
         public DateTime? DeletedOn { get; set; }
 
+        [Required]
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
