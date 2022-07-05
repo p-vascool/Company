@@ -1,8 +1,9 @@
-﻿using Company.Data.Common.Models;
-using System;
-
-namespace Company.Data.Models
+﻿namespace Company.Data.Models
 {
+    using System;
+
+    using Company.Data.Common.Models;
+
     public class View : BaseModel<string>
     {
         public View()

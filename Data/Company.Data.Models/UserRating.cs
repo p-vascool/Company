@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Company.Data.Models
+﻿namespace Company.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class UserRating
     {
         [Required]
