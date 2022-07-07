@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Company.Web.ViewModels.Car.ViewModels
+﻿namespace Company.Web.ViewModels.Car.ViewModels
 {
+    using System.Collections.Generic;
+
     public class CarListViewModel
     {
         public string UserUsername { get; set; }
