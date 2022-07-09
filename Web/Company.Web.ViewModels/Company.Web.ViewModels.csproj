@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\Services\Company.Services.Mapping\Company.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Destinations\InputModels\" />
+  </ItemGroup>
+
 </Project>
