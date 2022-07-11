@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -22,6 +23,7 @@
     <ProjectReference Include="..\..\Data\Company.Data.Common\Company.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\Company.Data.Models\Company.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\Company.Data\Company.Data.csproj" />
+    <ProjectReference Include="..\..\Web\Company.Web.Infrastructure\Company.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Web\Company.Web.ViewModels\Company.Web.ViewModels.csproj" />
     <ProjectReference Include="..\Company.Services.Mapping\Company.Services.Mapping.csproj" />
     <ProjectReference Include="..\Company.Services\Company.Services.csproj" />
