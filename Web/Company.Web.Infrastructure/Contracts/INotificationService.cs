@@ -1,8 +1,10 @@
 ﻿namespace Company.Web.Infrastructure.Contracts
 {
-    using Company.Data.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
+    using Company.Data.Models;
+    using Company.Web.ViewModels.Notifications;
 
     public interface INotificationService
     {

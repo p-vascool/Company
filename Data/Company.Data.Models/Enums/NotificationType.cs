@@ -4,7 +4,7 @@
     {
         AcceptedTripRequest = 1,
         DeclinedTripRequest = 2,
-        JoinerGroupChat = 3,
+        JoinedGroupChat = 3,
         RateProfile = 4,
         TripRequest = 5,
     }

@@ -22,6 +22,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Company.Data.Common\Company.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\Company.Data.Models\Company.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\Company.Data\Company.Data.csproj" />
+    <ProjectReference Include="..\Company.Web.ViewModels\Company.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
