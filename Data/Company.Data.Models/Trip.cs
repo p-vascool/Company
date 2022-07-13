@@ -30,7 +30,7 @@
 
         public DateTime Departure { get; set; }
 
-        public DateTime Arrival { get; set; }
+        public TimeSpan TimeOfDeparture { get; set; }
 
         public string AdditionalInformation { get; set; }
 
