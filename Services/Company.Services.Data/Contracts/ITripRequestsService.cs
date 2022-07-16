@@ -13,7 +13,7 @@
 
         IEnumerable<TripRequest> GetPendingTripRequestsByTripId(string tripId);
 
-        Task<bool> SendTripRequest(string senderId, Trip trip, string ownerId);
+        Task<bool> SendTripRequest(string userName, Trip trip, string ownerId);
 
         Task<bool> IsRequestAlreadySend(string senderId, string tripId);
     }

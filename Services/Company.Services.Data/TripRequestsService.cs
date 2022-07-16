@@ -16,14 +16,19 @@
 
     public class TripRequestsService : ITripRequestsService
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly INotificationService notificationService;
 
-        public TripRequestsService(IUnitOfWork unitOfWork)
+        public TripRequestsService(
+                        IUnitOfWork unitOfWork,
+                        IHubContext<NotificationHub> hubContext,
+                        INotificationService notificationService)
         {
             this._unitOfWork = unitOfWork;
+            this._hubContext = hubContext;
+            this.notificationService = notificationService;
         }
 
         public IEnumerable<TripRequest> GetAllTripRequestsByTripId(string tripId)
@@ -56,14 +61,51 @@
                         .Where(x => x.TripId == tripId && x.Status == RequestStatus.Pending);
         }
 
-        public Task<bool> IsRequestAlreadySend(string senderId, string tripId)
+        public async Task<bool> IsRequestAlreadySend(string senderId, string tripId)
         {
-            throw new System.NotImplementedException();
+            return await this._unitOfWork.TripRequests
+                                            .All()
+                                            .AnyAsync(x => x.UserId == senderId && x.TripId == tripId);
         }
 
-        public Task<bool> SendTripRequest(string senderId, Trip trip, string ownerId)
+        public async Task<bool> SendTripRequest(string usernName, Trip trip, string ownerId)
         {
-            throw new System.NotImplementedException();
+            var isRequestSent = false;
+
+            var owner = await this._unitOfWork.Users
+                                        .All()
+                                        .Where(x => x.Id == ownerId)
+                                        .Include(x => x.UserTrips)
+                                        .Include(x => x.TripRequests)
+                                        .FirstOrDefaultAsync();
+
+            var sender = await this._unitOfWork.Users
+                                        .All()
+                                        .Where(x => x.UserName == usernName)
+                                        .FirstOrDefaultAsync();
+
+            if (!await this.IsRequestAlreadySend(sender.Id, trip.Id))
+            {
+                isRequestSent = true;
+                var tripRequest = new TripRequest
+                {
+                    TripId = trip.Id,
+                    Status = RequestStatus.Pending,
+                    Trip = trip,
+                    User = sender,
+                    UserId = sender.Id,
+                };
+                trip.TripRequest.Add(tripRequest);
+
+                await this._unitOfWork.TripRequests.AddAsync(tripRequest);
+                await this._unitOfWork.CompleteAsync();
+
+                var notificationId = await this.notificationService.AddTripRequestNotification(sender.UserName, owner.UserName, $"{sender.UserName} sent a trip request from your trip!", trip.Id);
+                var notification = await this.notificationService.GetNotificationByIdAsync(notificationId);
+                await this._hubContext.Clients.User(ownerId).SendAsync("VisualizeNotification", notification);
+            }
+
+            return isRequestSent;
         }
     }
 }
