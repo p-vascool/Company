@@ -4,12 +4,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Company.Web.ViewModels.Destinations.ViewModels;
     using Company.Web.ViewModels.Trips.ViewModels;
 
     public interface IDestinationsService
     {
-        IEnumerable<TripSearchViewModel> GetAllDestinations();
+        IEnumerable<DestinationViewModel> GetAllDestinationsAsync();
 
-        Task<TripSearchViewModel> GetSearchResultAsync(int fromDestinationId, int toDestinationId, DateTime? departureTime);
+        Task<TripSearchViewModel> GetSearchResultAsync(int fromDestinationId, int toDestinationId, DateTime? dateOfDeparture);
     }
 }

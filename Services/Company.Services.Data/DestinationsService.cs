@@ -8,6 +8,7 @@
     using Company.Data;
     using Company.Services.Data.Contracts;
     using Company.Services.Mapping;
+    using Company.Web.ViewModels.Destinations.ViewModels;
     using Company.Web.ViewModels.Trips.ViewModels;
     using Microsoft.EntityFrameworkCore;
 
@@ -20,15 +21,14 @@
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<TripSearchViewModel> GetAllDestinations()
+        public IEnumerable<DestinationViewModel> GetAllDestinationsAsync()
         {
-            var trips = this._unitOfWork
-                        .Trips
-                        .All()
-                        .To<TripSearchViewModel>()
-                        .ToList();
+            var destinations = this._unitOfWork.Destinations
+                 .All()
+                 .To<DestinationViewModel>()
+                 .ToList();
 
-            return trips;
+            return destinations;
         }
 
         public async Task<TripSearchViewModel> GetSearchResultAsync(int fromDestinationId, int toDestinationId, DateTime? departureTime)

@@ -1,6 +1,9 @@
 ﻿namespace Company.Web.ViewModels.Destinations.ViewModels
 {
-    public class DestinationViewModel
+    using Company.Data.Models;
+    using Company.Services.Mapping;
+
+    public class DestinationViewModel : IMapFrom<Destination>
     {
         public int Id { get; set; }
 

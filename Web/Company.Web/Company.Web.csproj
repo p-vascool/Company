@@ -18,6 +18,11 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="6.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.5" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
@@ -27,6 +32,7 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Twilio" Version="5.77.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,5 +45,10 @@
     <ProjectReference Include="..\..\Services\Company.Services\Company.Services.csproj" />
     <ProjectReference Include="..\Company.Web.Infrastructure\Company.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\Company.Web.ViewModels\Company.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewComponents\" />
+    <Folder Include="Pages\" />
   </ItemGroup>
 </Project>
