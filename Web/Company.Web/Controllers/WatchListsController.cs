@@ -20,6 +20,7 @@
         {
             IEnumerable<WatchListTripsViewModel> watchListTrips = this.watchListsService.All(this.User.Identity.Name);
 
+
             return this.View(watchListTrips);
         }
 
