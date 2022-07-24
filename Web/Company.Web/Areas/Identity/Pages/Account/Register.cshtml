@@ -1,0 +1,103 @@
+﻿@page
+@using Microsoft.Extensions.Options
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<link rel="stylesheet" href="~/css/Login.css">
+<div id="banner-area">
+    <img src="~/images/banner/loginFormBanner.jpeg" width="1900" height="400" alt="" />
+    <div class="parallax-overlay"></div>
+    <div class="banner-title-content">
+        <div class="text-center">
+            <h2>Register Page</h2>
+            <ul class="breadcrumb">
+                <li>Home</li>
+                <li><a asp-area="Identity" asp-page="/Account/Register"> Register</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="row">
+            <div class="login-form">
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <h4>Create a new account</h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Input.Username"></label>
+                        <input asp-for="Input.Username" class="form-control" />
+                        <span asp-validation-for="Input.Username" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">Register</button>
+                    </div>
+                </form>
+                <div class="login_form_inner">
+                    @{
+                        if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                        {
+                            <div class="row">
+                                <p>
+                                    There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                                    for details on setting up this ASP.NET application to support logging in via external services.
+                                </p>
+                            </div>
+                        }
+                        else
+                        {
+                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                <div>
+                                    <p>
+                                        @foreach (var provider in Model.ExternalLogins)
+                                        {
+                                            if (provider.DisplayName == "Facebook")
+                                            {
+                                                <div class="row">
+                                                    <button class="fb btn" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-facebook fa-fw"></i> Login with @provider.DisplayName</button>
+                                                </div>
+                                            }
+
+                                            if (provider.DisplayName == "Google")
+                                            {
+                                                <div class="row">
+                                                    <button class="google btn" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-google fa-fw"></i> Login with @provider.DisplayName</button>
+                                                </div>
+                                            }
+                                        }
+                                    </p>
+                                </div>
+                            </form>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+        </div>
+    </main>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

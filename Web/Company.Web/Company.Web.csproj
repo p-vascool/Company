@@ -47,9 +47,4 @@
     <ProjectReference Include="..\Company.Web.Infrastructure\Company.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\Company.Web.ViewModels\Company.Web.ViewModels.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewComponents\" />
-    <Folder Include="Pages\" />
-  </ItemGroup>
 </Project>
